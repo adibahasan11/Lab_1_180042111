@@ -17,6 +17,7 @@ const work = fs.readFileSync('./HTML/work.html', 'utf-8');
 
 const server = http.createServer((req, res) => {
     if (req.url == '/'){
+        //res.writeHead( {"Content-Type" : "text/plain"} )
         res.write(index);
         res.end();
     }
