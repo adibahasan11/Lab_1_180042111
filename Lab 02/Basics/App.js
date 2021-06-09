@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const UserRoutes = require('./Routes/UserRoutes.routes');
 
-app.use( "/users/", UserRoutes);
+app.use(UserRoutes);
 
 app.get("/", (req, res) => {
-    res.status(200).send("<h1> Welcome - GET </h1>");
+    //res.status(200).send("<h1> Welcome - GET </h1>");
+    res.sendFile("Home.html", {root:"./Views"});
 });
 
 app.post("/", (req, res) => {
