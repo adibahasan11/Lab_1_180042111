@@ -1,6 +1,17 @@
 const express = require('express');
 const app = express();
 const UserRoutes = require('./Routes/UserRoutes.routes');
+const { logger, printSomething } = require("./Middlewares/App.middlewares")
+const morgan = require('morgan')
+
+//Adding the same middleware for every routes here
+//app.use([logger, printSomething]);
+
+//Built-in Middleware, linking the static files
+app.use(express.static('Public'));
+
+//3rd Party Middleware
+app.use(morgan("tiny"))
 
 app.use(UserRoutes);
 

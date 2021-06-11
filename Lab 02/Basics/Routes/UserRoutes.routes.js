@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
+const isLoggedIn = require("./../Middlewares/Auth.middlewares");
 
 const Router = express.Router();
 
@@ -16,24 +17,24 @@ Router.get("/login", (req, res)=> {
     //res.sendFile("Login.html", {root:"./Views/Users"});
 });
 
-Router.get("/dashboard/:id/:username", (req, res) => {
-    const id = req.params.id;
-    const username = req.params.username;
-    res.send("User with ID : " + id + " and username : " + username + " is requesting to access the dashboard.");
+Router.get("/dashboard", (req, res) => {
+    res.send("User Dashboard");
 })
 
 Router.get("/register", (req, res)=> {
     res.sendFile("Register.html", {root:"./Views/Users"});
 });
 
-Router.post("/register", (req, res)=> {
-    const username = req.body.username
-    const email = req.body.email
-    const password = req.body.password
-    const C_password = req.body.C_password
+Router.post("/register", isLoggedIn, (req, res)=> {
+    //const username = req.body.username
+    //const email = req.body.email
+    //const password = req.body.password
+    //const C_password = req.body.C_password
 
     //res.sendFile("Register.html", {root:"./Views/Users"});
-    res.send("<h1>User with Email : " + email + " and username : " + username + " is requesting to access the dashboard.</h1>")
+    //res.send("<h1>User with Email : " + email + " and username : " + username + " is requesting to access the dashboard.</h1>")
+
+    res.redirect("/dashboard");
 });
 
 module.exports = Router;
