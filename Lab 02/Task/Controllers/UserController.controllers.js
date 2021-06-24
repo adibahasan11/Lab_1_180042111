@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
-const alert = require('alert');
 const db = require("../database");
+const alert = require('alert');
+
+var LocalStorage  = require('node-localstorage').LocalStorage;
+const localStorage = new LocalStorage('./LocalStorage');
 
 const getDashboard = (req, res) =>{
     res.sendFile("Dashboard.html", {root:"./Views"});
@@ -15,27 +18,29 @@ const postLogin = (req, res) =>{
     const password = req.body.password
 
     db.query('SELECT * FROM Users WHERE Email = ?',  [email], function(err, result, rows){
-    if(err) {
-        console.log(err);
-    }
+        if(err) {
+            console.log(err);
+        }
 
-    if (!rows.length)
-    {
-        alert("No user found.");
-    }
-    else
-    {
-        if (!bcrypt.compareSync(password, result[0].Password)) {
-            res.redirect('/login');
+        if (!rows.length)
+        {
+            alert("No user found.");
         }
         else
         {
-            console.log("User: " + result[0].Name + " found");
-            res.redirect('/dashboard');
+            if (!bcrypt.compareSync(password, result[0].Password)) {
+                alert("Wrong Password!")
+                res.redirect('/login');
+            }
+            else
+            {
+                username = result[0].Name;
+                console.log("User: " + result[0].Name + " found");
+                localStorage.setItem("username", result[0].Name);
+                res.redirect('/dashboard');
+            }
         }
-    }
-});
-
+    });
 }
 
 const getRegister = (req, res) =>{
@@ -66,4 +71,9 @@ const postRegister = (req, res) =>{
     }
 }
 
-module.exports = { getRegister, getLogin, getDashboard, postRegister, postLogin };
+const logout = (req,res)=> {
+    localStorage.removeItem("username")
+    res.redirect('/')
+}
+
+module.exports = { getRegister, getLogin, getDashboard, postRegister, postLogin, logout };
