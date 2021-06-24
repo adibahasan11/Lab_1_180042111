@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 
-const { getRegister, getLogin, getDashboard } = require("./../Controllers/UserController.controllers")
+const { getRegister, getLogin, getDashboard, postRegister, postLogin } = require("./../Controllers/UserController.controllers")
 
 const Router = express.Router();
 
@@ -10,8 +10,8 @@ Router.use(bodyParser.json());
 
 Router.get("/dashboard", getDashboard);
 
-Router.get("/login", getLogin);
+Router.route("/login").get(getLogin).post(postLogin);
 
-Router.get("/register", getRegister);
+Router.route("/register").get(getRegister).post(postRegister);
 
 module.exports = Router;

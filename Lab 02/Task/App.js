@@ -8,7 +8,7 @@ app.use(express.static('Public'));
 app.use(UserRoutes);
 
 app.get("/", (req, res) => {
-    res.status(200).send("<h1> Welcome - GET </h1>");
+    res.sendFile("Home.html", {root:"./Views"});
 });
 
 app.use((req, res) => {
