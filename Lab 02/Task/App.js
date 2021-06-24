@@ -2,14 +2,11 @@ const express = require('express');
 const app = express();
 
 const UserRoutes = require('./Routes/UserRoutes.routes');
-const { errorPage, getHome } = require("./Controllers/HomeController.controllers");
+const HomeRoutes = require('./Routes/HomeRoutes.routes');
 
 app.use(express.static('Public'));
 
 app.use(UserRoutes);
-
-app.get("/", getHome);
-
-app.use(errorPage);
+app.use(HomeRoutes);
 
 module.exports = app;
