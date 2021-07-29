@@ -6,11 +6,11 @@ var LocalStorage  = require('node-localstorage').LocalStorage;
 const localStorage = new LocalStorage('./LocalStorage');
 
 const getDashboard = (req, res) =>{
-    res.sendFile("Dashboard.html", {root:"./Views"});
+    res.render("Dashboard.ejs");
 }
 
 const getLogin = (req, res) =>{
-    res.sendFile("Login.html", {root:"./Views/User-Auth"});
+    res.render("User-Auth/Login.ejs");
 }
 
 const postLogin = (req, res) =>{
@@ -25,6 +25,7 @@ const postLogin = (req, res) =>{
         if (!rows.length)
         {
             alert("No user found.");
+            res.redirect("/register");
         }
         else
         {
@@ -44,7 +45,7 @@ const postLogin = (req, res) =>{
 }
 
 const getRegister = (req, res) =>{
-    res.sendFile("Register.html", {root:"./Views/User-Auth"});
+    res.render("User-Auth/Register.ejs");
 }
 
 const postRegister = (req, res) =>{

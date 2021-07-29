@@ -6,6 +6,8 @@ const HomeRoutes = require('./Routes/HomeRoutes.routes');
 
 app.use(express.static('Public'));
 
+app.set('view engine', 'ejs');
+
 app.use(UserRoutes);
 app.use(HomeRoutes);
 

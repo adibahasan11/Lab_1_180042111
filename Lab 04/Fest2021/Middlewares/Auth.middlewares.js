@@ -12,7 +12,7 @@ const isLoggedIn = (req, res, next) => {
     }
 }
 
-const is_authenticated = (req, res, next) => {
+const isAuthenticated = (req, res, next) => {
     if ( req.method == 'GET' ) {
         const user = localStorage.getItem("username")
         if (user){
@@ -27,4 +27,4 @@ const is_authenticated = (req, res, next) => {
     }
 }
 
-module.exports = { isLoggedIn, is_authenticated };
+module.exports = { isLoggedIn, isAuthenticated };
