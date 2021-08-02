@@ -11,6 +11,7 @@ const mongoose = require ('mongoose');
 const IndexRoutes = require('./Routes/IndexRoutes.routes');
 const HomeRoutes = require('./Routes/HomeRoutes.routes');
 const UserRoutes = require('./Routes/UserRoutes.routes');
+const MathOlympiadRoutes = require('./Routes/MathOlympiad.routes');
 
 //Database
 mongoose.connect(process.env.MongoURI, { 
@@ -35,6 +36,7 @@ app.use( session({
 
 app.use( flash() );
 
+app.use("/MathOlympiad", express.static('Public'), MathOlympiadRoutes);
 app.use(HomeRoutes);
 app.use(UserRoutes);
 app.use(IndexRoutes);

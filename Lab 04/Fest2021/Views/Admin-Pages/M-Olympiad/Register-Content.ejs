@@ -1,0 +1,98 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Math Olympiad <small>Participant Registration</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <br />
+
+            <%if(error.length>0){if(error == "Participant Added Successfully"){%>
+                <div class="alert alert-success">
+                  <%= error%><br />
+                </div>
+                <%}else{%>
+                <div class="alert alert-danger">
+                  <%= error%><br />
+                </div>
+              <%}%>
+            <%}%>
+
+            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="/MathOlympiad/register">
+
+              <div class="item form-group">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Name <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                  <input type="text" id="name" name="name" required="required" class="form-control ">
+                </div>
+              </div><br>
+              <div class="item form-group">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="category">Category <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                  <select class="form-control" id="category" name="category">
+                    <option disabled>Choose an Option</option>
+                    <option value="School">School</option>
+                    <option value="College">College</option>
+                    <option value="University">University</option>
+                  </select>
+                </div>
+              </div>
+              <div class="item form-group">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="contact">Contact No. <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                  <input type="text" id="contact" name="contact" required="required" class="form-control">
+                </div>
+              </div>
+              <div class="item form-group">
+                <label for="email" class="col-form-label col-md-3 col-sm-3 label-align">Email</label>
+                <div class="col-md-6 col-sm-6 ">
+                  <input id="email" class="form-control" type="email" name="email">
+                </div>
+              </div>
+              <div class="item form-group">
+                <label for="institution" class="col-form-label col-md-3 col-sm-3 label-align">Institution name <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                  <input id="institution" class="form-control" type="text" name="institution" required="required">
+                </div>
+              </div>
+              <div class="item form-group">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="tshirt">T-Shirt Size <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                  <select class="form-control" id="tshirt" name="tshirt">
+                    <option disabled>Choose an Option</option>
+                    <option value="M">Medium</option>
+                    <option value="XL">Extra Large</option>
+                    <option value="L">Large</option>
+                    <option value="S">Small</option>
+                  </select>
+                </div>
+              </div>
+              <div class="ln_solid"></div>
+              <div class="item form-group">
+                <div class="col-md-6 col-sm-6 offset-md-3">
+                  <button class="btn btn-dark btn-xs" type="reset">Reset</button>
+                  <button type="submit" class="btn btn-success btn-xs">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
