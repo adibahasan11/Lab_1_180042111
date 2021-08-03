@@ -40,7 +40,7 @@ const postRegisterMO = (req, res) =>{
             error = "Participant already exists with this name and contact number.";
 
             req.flash("error", error);
-            res.redirect("register");
+            res.redirect("Register");
         }
         else {
             const participant = new MathOlympiad({
@@ -62,27 +62,127 @@ const postRegisterMO = (req, res) =>{
                     error = "Participant Added Successfully"
                     
                     req.flash("error", error);
-                    res.redirect('/Participant-list');
+                    res.redirect('Register');
                 })
                 .catch((err)=>{
                     console.log(err)
                     error = "An Unexpected Error while Creating New User.";
 
                     req.flash("error", error);
-                    res.redirect("register");
+                    res.redirect("Register");
                 });
         }
     })
 }
 
 const getMOList = (req, res) =>{
-    res.render("Math-Olympiad/List.ejs", { username: username });
+    let Participants = [];
+    let error = "";
+
+    MathOlympiad.find().then((data) => {
+        Participants = data;
+
+        res.render("Math-Olympiad/List.ejs", { 
+            username: username,
+            participants: Participants,
+            error: req.flash("error"),
+        });
+    })
+    .catch(() => {
+        error = "An Unexpected Error occured while fetching data."
+
+        res.render("Math-Olympiad/List.ejs", { 
+            username: username,
+            participants: Participants,
+            error: req.flash("error", error),
+        });
+    })
 }
 
 const deleteMO = (req, res) =>{
     const id = req.params.id;
+    let error = ''
+
     console.log(id);
-    res.render("Math-Olympiad/List.ejs", { username: username });
+
+    MathOlympiad.deleteOne({ _id: id }, (err) =>{
+        if (err) {
+            error = "Failed to delete data."
+            req.flash('error', error);
+
+            res.redirect('/MathOlympiad/Participant-list');
+        }
+        else{
+            error = "Data Successfully deleted."
+            req.flash('error', error);
+
+            res.redirect('/MathOlympiad/Participant-list');
+        }
+    });
 }
 
-module.exports = { getRegisterMO, getMOList, postRegisterMO, deleteMO };
+const paymentDone = (req, res) =>{
+    const id = req.params.id;
+    let error = ''
+
+    console.log(id);
+    console.log("I am here");
+
+    MathOlympiad.findOne({ _id: id }).then((participant)=> {
+        participant.paid = participant.total;
+        
+        participant.save().then(()=>{
+            error = "Payment Accepted Successfully."
+            req.flash('error', error);
+
+            console.log(error);
+            res.redirect('/MathOlympiad/Participant-list');
+        }).catch(()=>{
+            error = "Unknown Error occured and Payment was denied."
+            req.flash('error', error);
+
+            console.log(error);
+            res.redirect('/MathOlympiad/Participant-list');
+        });
+        }).catch(()=>{
+        error = "Unknown Error occured and Participant was not found."
+        req.flash('error', error);
+
+        console.log(error);
+        res.redirect('/MathOlympiad/Participant-list');
+    })
+}
+
+const participantSelected = (req, res) =>{
+    const id = req.params.id;
+    let error = ''
+
+    console.log(id);
+    console.log("I am hereee");
+
+    MathOlympiad.findOne({ _id: id }).then((participant)=> {
+        participant.selected = true;
+        
+        participant.save().then(()=>{
+            error = "Participant Selected Successfully."
+            req.flash('error', error);
+
+            console.log(error);
+            res.redirect('/MathOlympiad/Participant-list');
+        }).catch(()=>{
+            error = "Unknown Error occured and Participant was not Selected."
+            req.flash('error', error);
+
+            console.log(error);
+            res.redirect('/MathOlympiad/Participant-list');
+        });
+        }).catch(()=>{
+        error = "Unknown Error occured and Participant was not found."
+        req.flash('error', error);
+
+        console.log(error);
+        res.redirect('/MathOlympiad/Participant-list');
+    })
+}
+
+module.exports = { getRegisterMO, getMOList, postRegisterMO, deleteMO, paymentDone, participantSelected };
