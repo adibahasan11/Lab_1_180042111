@@ -38,7 +38,11 @@ app.use( session({
 app.use( flash() );
 
 app.use("/MathOlympiad", express.static('Public'), MathOlympiadRoutes);
+app.use("/MathOlympiad/Edit", express.static('Public'), MathOlympiadRoutes);
+
 app.use("/ProgrammingContest", express.static('Public'), PContestRoutes);
+app.use("/ProgrammingContest/Edit", express.static('Public'), PContestRoutes);
+
 app.use(HomeRoutes);
 app.use(UserRoutes);
 app.use(IndexRoutes);

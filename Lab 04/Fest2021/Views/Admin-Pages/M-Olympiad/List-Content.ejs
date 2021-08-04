@@ -17,7 +17,8 @@
         <% let success = "Data Successfully deleted." %>
         <% let success2 = "Payment Accepted Successfully." %>
         <% let success3 = "Participant Selected Successfully." %>
-          <%if(error.length>0){if(error == success || success2 || success3){%>
+        <% let success4 = "Participant Data was edited Successfully." %>
+          <%if(error.length>0){if(error == success || success2 || success3 || success4){%>
               <div class="alert alert-success">
                   <%=error%><br/>
               </div>
@@ -81,8 +82,10 @@
                         <i class="glyphicon glyphicon-ok"></i>  <i class="fa fa-dollar"></i>
                       </a>
                   </td>
-                  <td><a href="/" data-toggle="tooltip" title="Edit">
-                    <i style="color: green;"class="glyphicon glyphicon-pencil"></i></a>
+                  <td>
+                    <% const editURL = "edit/" + participant._id %>
+                    <a href="<%= editURL %>" data-toggle="tooltip" title="Edit">
+                      <i style="color: green;"class="glyphicon glyphicon-pencil"></i></a>
                   </td>
                   <td>
                     <% const deleteURL = "delete/" + participant._id %>
