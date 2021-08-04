@@ -12,6 +12,7 @@ const IndexRoutes = require('./Routes/IndexRoutes.routes');
 const HomeRoutes = require('./Routes/HomeRoutes.routes');
 const UserRoutes = require('./Routes/UserRoutes.routes');
 const MathOlympiadRoutes = require('./Routes/MathOlympiad.routes');
+const PContestRoutes = require('./Routes/PContestRoutes.routes');
 
 //Database
 mongoose.connect(process.env.MongoURI, { 
@@ -37,6 +38,7 @@ app.use( session({
 app.use( flash() );
 
 app.use("/MathOlympiad", express.static('Public'), MathOlympiadRoutes);
+app.use("/ProgrammingContest", express.static('Public'), PContestRoutes);
 app.use(HomeRoutes);
 app.use(UserRoutes);
 app.use(IndexRoutes);

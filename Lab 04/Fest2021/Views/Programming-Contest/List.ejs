@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../Admin-Partials/Header.ejs') %>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <%- include('../Admin-Partials/Sidebar.ejs') %>
+
+        <!-- top navigation -->
+        <%- include('../Admin-Partials/Navbar.ejs') %>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <%- include('../Admin-Pages/P-Contest/List-Content.ejs') %>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <%- include('../Admin-Partials/Footer.ejs') %>
+        <!-- /footer content -->
+      </div>
+    </div>
+    <%- include('../Admin-Partials/Scripts.ejs') %>
+  </body>
+</html>
