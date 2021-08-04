@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 
-const { getRegisterPC, postRegisterPC, getPCList, deletePC, paymentDone, teamSelected } = require("./../Controllers/PContestController.controller");
+const { getRegisterPC, postRegisterPC, getPCList, deletePC, paymentDone, teamSelected, getEditPC, postEditPC } = require("./../Controllers/PContestController.controller");
 const { isLoggedIn } = require("./../Middlewares/Auth.middlewares");
 
 const Router = express.Router();
@@ -10,6 +10,8 @@ Router.use(bodyParser.urlencoded({ extended: false }));
 Router.use(bodyParser.json());
 
 Router.route("/Register-Team").all(isLoggedIn).get(getRegisterPC).post(postRegisterPC);
+
+Router.route("/Edit/:id").all(isLoggedIn).get(getEditPC).post(postEditPC);
 
 Router.get("/Team-list", isLoggedIn, getPCList);
 

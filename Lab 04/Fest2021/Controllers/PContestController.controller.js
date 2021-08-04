@@ -42,8 +42,7 @@ const postRegisterPC = (req, res) =>{
 
     let error = "";
 
-    ProgrammingContest.findOne({ teamName: teamName, institution: institution, c_name: c_name, c_contact: c_contact })
-        .then( (team) => {
+    ProgrammingContest.findOne({ teamName: teamName, institution: institution }).then( (team) => {
         if (team) {
             error = "Team already exists with this name and contact number.";
 
@@ -119,6 +118,115 @@ const getPCList = (req, res) =>{
             teams: Teams,
             error: req.flash("error", error),
         });
+    })
+}
+
+const getEditPC = (req, res) =>{
+    const id = req.params.id;
+    let Team = [];
+    let error = ''
+
+    console.log(id);
+
+    ProgrammingContest.findOne({ _id: id }).then((data) => {
+        Team = data;
+
+        res.render("Programming-Contest/Edit.ejs", { 
+            username: username,
+            team: Team,
+            error: req.flash("error"),
+        });
+    })
+    .catch(() => {
+        error = "An Unexpected Error occured while fetching data."
+
+        res.render("Programming-Contest/Edit.ejs", { 
+            username: username,
+            team: Team,
+            error: req.flash("error", error),
+        });
+    })
+    
+}
+
+const postEditPC = (req, res) =>{
+    const id = req.params.id;
+    let error = ''
+
+    console.log(id);
+
+    ProgrammingContest.findOne({ _id: id }).then( (team) => {
+        if (team) {
+            const { 
+                teamName,
+                institution,
+        
+                c_name,
+                c_contact,
+                c_email,
+                c_tshirt,
+        
+                m_name0,
+                m_contact0,
+                m_email0,
+                m_tshirt0,
+        
+                m_name1,
+                m_contact1,
+                m_email1,
+                m_tshirt1,
+        
+                m_name2,
+                m_contact2,
+                m_email2,
+                m_tshirt2,
+        
+            } = req.body;
+
+            team.teamName = teamName;
+            team.institution = institution;
+
+            team.c_name = c_name;
+            team.c_contact = c_contact;
+            team.c_email = c_email;
+            team.c_tshirt = c_tshirt;
+
+            team.m_name0 = m_name0;
+            team.m_contact0 = m_contact0;
+            team.m_email0 = m_email0;
+            team.m_tshirt0 = m_tshirt0;
+
+            team.m_name1 = m_name1;
+            team.m_contact1 = m_contact1;
+            team.m_email1 = m_email1;
+            team.m_tshirt1 = m_tshirt1;
+
+            team.m_name2 = m_name2;
+            team.m_contact2 = m_contact2;
+            team.m_email2 = m_email2;
+            team.m_tshirt2 = m_tshirt2;
+
+            team.save().then(()=>{
+                error = "Team Data was edited successfully.";
+                req.flash('error', error);
+    
+                console.log(error);
+                res.redirect('/ProgrammingContest/Team-list');
+            }).catch(()=>{
+                error = "Unknown Error occured and Data was not Edited."
+                req.flash('error', error);
+    
+                console.log(error);
+                res.redirect('/ProgrammingContest/Team-list');
+            });
+        }
+        else {
+            error = "Unknown Error occured and Data was not Edited."
+            req.flash('error', error);
+    
+            console.log(error);
+            res.redirect('/ProgrammingContest/Team-list');
+        }
     })
 }
 
@@ -208,4 +316,4 @@ const teamSelected = (req, res) =>{
     })
 }
 
-module.exports = { getRegisterPC, getPCList, postRegisterPC, deletePC, paymentDone, teamSelected };
+module.exports = { getRegisterPC, getPCList, postRegisterPC, deletePC, paymentDone, teamSelected, getEditPC, postEditPC };
