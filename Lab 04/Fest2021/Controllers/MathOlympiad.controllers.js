@@ -137,12 +137,24 @@ const postEditMO = (req, res) =>{
         if (participant) {
             const { name, category, contact, email, institution, tshirt } = req.body;
 
+            let registrationFee = 0;
+            if (category == "School") {
+                registrationFee = 250;
+            }
+            else if (category == "College") {
+                registrationFee = 400;
+            } 
+            else {
+                registrationFee = 500;
+            }
+            
             participant.name = name;
             participant.category = category;
             participant.contact = contact;
             participant.email = email;
             participant.institution = institution;
             participant.tshirt = tshirt;
+            participant.total = registrationFee;
 
             participant.save().then(()=>{
                 error = "Participant Data was edited successfully.";
