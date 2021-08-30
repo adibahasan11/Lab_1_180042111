@@ -5,6 +5,16 @@ const localStorage = new LocalStorage('./LocalStorage');
 
 const username = localStorage.getItem("username");
 
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: "hotmail",
+    auth: {
+        user: "ictfest2021@outlook.com",
+        pass: "ictfest123456789"
+    }
+});
+
 const getRegisterMO = (req, res) =>{
     res.render("Math-Olympiad/Register.ejs", { username: username, error: req.flash("error") });
 }
@@ -60,6 +70,23 @@ const postRegisterMO = (req, res) =>{
                 .then(() => {
                     console.log("Participant Added: " + name);
                     error = "Participant Added Successfully"
+
+                    console.log(email);
+                    const options = {
+                        to: email,
+                        from: "ictfest2021@outlook.com",
+                        subject: "Registration is Successful!",
+                        text: "Dear " + name + ", \n" + 
+                        "Congratulations! Your Registration to Math Olympiad in ICT Fest, 2021 is successful."
+                    }
+
+                    transporter.sendMail(options, function(err, info){
+                        if (err){
+                            console.log(err);
+                            return;
+                        }
+                        console.log("Sent: " + info.response);
+                    }); 
                     
                     req.flash("error", error);
                     res.redirect('Register');
@@ -247,6 +274,22 @@ const participantSelected = (req, res) =>{
         participant.save().then(()=>{
             error = "Participant Selected Successfully."
             req.flash('error', error);
+
+            const options = {
+                to: participant.email,
+                from: "ictfest2021@outlook.com",
+                subject: "You have been Selected!",
+                text: "Dear " + participant.name + ", \n" + 
+                    "Congratulations! Your have been selected for the Math Olympiad in ICT Fest, 2021 is successful."
+            }
+
+            transporter.sendMail(options, function(err, info){
+                if (err){
+                    console.log(err);
+                    return;
+                }
+                console.log("Sent: " + info.response);
+            }); 
 
             console.log(error);
             res.redirect('/MathOlympiad/Participant-list');

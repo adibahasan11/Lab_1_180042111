@@ -5,6 +5,16 @@ const localStorage = new LocalStorage('./LocalStorage');
 
 const username = localStorage.getItem("username");
 
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: "hotmail",
+    auth: {
+        user: "ictfest2021@outlook.com",
+        pass: "ictfest123456789"
+    }
+});
+
 const getRegisterPC = (req, res) =>{
     //res.render("Programming-Contest/Register.ejs", { username: username, error: req.flash("error") });
     res.render("Programming-Contest/Register.ejs", { username: username, error: req.flash("error") });
@@ -82,6 +92,27 @@ const postRegisterPC = (req, res) =>{
                 .then(() => {
                     console.log("Team Added: " + teamName);
                     error = "Team Added Successfully"
+
+                    //for (i in emails) {
+                        //console.log(emails[i]);
+                        //const emails = [c_email, m_email0, m_email1, m_email2];
+                        
+                    const options = {
+                        from: "ictfest2021@outlook.com",
+                        to: m_email0,
+                        subject: "Registration is Successful!",
+                        text: "Dear " + teamName + ", \n" + 
+                        "Congratulations! Your Registration to Programming Contest in ICT Fest, 2021 is successful."
+                    }
+
+                    transporter.sendMail(options, function(err, info){
+                        if (err){
+                            console.log(err);
+                            return;
+                        }
+                        console.log("Sent: " + info.response);
+                    });
+                    //} 
                     
                     req.flash("error", error);
                     res.redirect('Register-Team');
@@ -289,7 +320,6 @@ const teamSelected = (req, res) =>{
     let error = ''
 
     console.log(id);
-    console.log("I am hereee");
 
     ProgrammingContest.findOne({ _id: id }).then((team)=> {
         team.selected = true;
@@ -297,6 +327,22 @@ const teamSelected = (req, res) =>{
         team.save().then(()=>{
             error = "Team Selected Successfully."
             req.flash('error', error);
+
+            const options = {
+                to: team.m_email0,
+                from: "ictfest2021@outlook.com",
+                subject: "Your Team is Selected!",
+                text: "Dear " + team.teamName + ", \n" + 
+                "Congratulations! Your Team has been selected for Programming Contest in ICT Fest, 2021 is successful."
+            }
+
+            transporter.sendMail(options, function(err, info){
+                if (err){
+                    console.log(err);
+                    return;
+                }
+                console.log("Sent: " + info.response);
+            });
 
             console.log(error);
             res.redirect('/ProgrammingContest/Team-list');
