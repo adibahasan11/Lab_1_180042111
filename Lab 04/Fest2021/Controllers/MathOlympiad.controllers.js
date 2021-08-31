@@ -1,5 +1,7 @@
 const MathOlympiad = require("../Models/MathOlympiad.model");
 
+var uuid = require('uuid');
+
 var LocalStorage = require('node-localstorage').LocalStorage;
 const localStorage = new LocalStorage('./LocalStorage');
 
@@ -44,6 +46,9 @@ const postRegisterMO = (req, res) =>{
     const total = registrationFee;
     const paid = 0;
     const selected = false;
+    
+    var verificationCode = uuid.v1();
+    console.log(verificationCode);
 
     MathOlympiad.findOne({ name: name, contact: contact }).then( (participant) => {
         if (participant) {
@@ -63,6 +68,7 @@ const postRegisterMO = (req, res) =>{
                 paid : paid,
                 selected : selected,
                 tshirt : tshirt,
+                verificationCode : verificationCode,
             });
 
             participant
@@ -77,7 +83,8 @@ const postRegisterMO = (req, res) =>{
                         from: "ictfest2021@outlook.com",
                         subject: "Registration is Successful!",
                         text: "Dear " + name + ", \n" + 
-                        "Congratulations! Your Registration to Math Olympiad in ICT Fest, 2021 is successful."
+                        "Congratulations! Your Registration to Math Olympiad in ICT Fest, 2021 is successful.\n" 
+                        + "Your unique code is " + verificationCode + "."
                     }
 
                     transporter.sendMail(options, function(err, info){

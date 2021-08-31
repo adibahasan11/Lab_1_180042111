@@ -94,6 +94,11 @@ const PCSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    verificationCode: {
+        type: String,
+        required: true,
+        unique: true,
+    },
 });
 
 const ProgrammingContest = mongoose.model("ProgrammingContest", PCSchema);
