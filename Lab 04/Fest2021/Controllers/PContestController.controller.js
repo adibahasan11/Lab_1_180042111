@@ -328,21 +328,23 @@ const teamSelected = (req, res) =>{
             error = "Team Selected Successfully."
             req.flash('error', error);
 
-            const options = {
-                to: team.m_email0,
-                from: "ictfest2021@outlook.com",
-                subject: "Your Team is Selected!",
-                text: "Dear " + team.teamName + ", \n" + 
-                "Congratulations! Your Team has been selected for Programming Contest in ICT Fest, 2021 is successful."
-            }
-
-            transporter.sendMail(options, function(err, info){
-                if (err){
-                    console.log(err);
-                    return;
+            if (!team.selected){
+                const options = {
+                    to: team.m_email0,
+                    from: "ictfest2021@outlook.com",
+                    subject: "Your Team is Selected!",
+                    text: "Dear " + team.teamName + ", \n" + 
+                        "Congratulations! Your Team has been selected for Programming Contest in ICT Fest, 2021."
                 }
-                console.log("Sent: " + info.response);
-            });
+
+                transporter.sendMail(options, function(err, info){
+                    if (err){
+                        console.log(err);
+                        return;
+                    }
+                    console.log("Sent: " + info.response);
+                });
+            }
 
             console.log(error);
             res.redirect('/ProgrammingContest/Team-list');

@@ -275,21 +275,23 @@ const participantSelected = (req, res) =>{
             error = "Participant Selected Successfully."
             req.flash('error', error);
 
-            const options = {
-                to: participant.email,
-                from: "ictfest2021@outlook.com",
-                subject: "You have been Selected!",
-                text: "Dear " + participant.name + ", \n" + 
-                    "Congratulations! Your have been selected for the Math Olympiad in ICT Fest, 2021 is successful."
-            }
-
-            transporter.sendMail(options, function(err, info){
-                if (err){
-                    console.log(err);
-                    return;
+            if (!participant.selected) {
+                const options = {
+                    to: participant.email,
+                    from: "ictfest2021@outlook.com",
+                    subject: "You have been Selected!",
+                    text: "Dear " + participant.name + ", \n" + 
+                        "Congratulations! Your have been selected for the Math Olympiad in ICT Fest, 2021."
                 }
-                console.log("Sent: " + info.response);
-            }); 
+
+                transporter.sendMail(options, function(err, info){
+                    if (err){
+                        console.log(err);
+                        return;
+                    }
+                    console.log("Sent: " + info.response);
+                });
+            }
 
             console.log(error);
             res.redirect('/MathOlympiad/Participant-list');
