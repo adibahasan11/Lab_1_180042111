@@ -10,10 +10,10 @@ const username = localStorage.getItem("username");
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    service: "hotmail",
+    service: "gmail",
     auth: {
-        user: "ictfest2021@outlook.com",
-        pass: "ictfest123456789"
+        user: process.env.Email,
+        pass: process.env.Password
     }
 });
 
@@ -80,7 +80,7 @@ const postRegisterMO = (req, res) =>{
                     console.log(email);
                     const options = {
                         to: email,
-                        from: "ictfest2021@outlook.com",
+                        from: "ictfest2021@gmail.com",
                         subject: "Registration is Successful!",
                         text: "Dear " + name + ", \n" + 
                         "Congratulations! Your Registration to Math Olympiad in ICT Fest, 2021 is successful.\n" 
@@ -285,7 +285,7 @@ const participantSelected = (req, res) =>{
             if (!participant.selected) {
                 const options = {
                     to: participant.email,
-                    from: "ictfest2021@outlook.com",
+                    from: "ictfest2021@gmail.com",
                     subject: "You have been Selected!",
                     text: "Dear " + participant.name + ", \n" + 
                         "Congratulations! Your have been selected for the Math Olympiad in ICT Fest, 2021."
